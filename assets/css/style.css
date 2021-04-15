@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
+html,body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Numans', sans-serif;
+}
+
+#section-main{
+    min-height: 70vh;
+}
+
+#table_div{
+    width: 70%;
+    margin-left: 50px;
+    padding-top: 30px;
+    padding-bottom: 100px;
+}
+
+#indexFooter{
+    position: fixed;
+    width: 20%;
+    height: 100px;
+    bottom: 0;
+    right: 0;
+    align-content: center;
+}
+
+.error-message {
+    position: fixed;
+    top: 20%;
+    left: 45%;
+    margin-left: -150px;
+    width: 500px;
+    word-wrap: break-word;
+    z-index: 9999;
+    background-color: tomato;
+    color: white;
+}
