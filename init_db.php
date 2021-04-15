@@ -8,6 +8,7 @@ include_once './api/models/Database.php';
 $db = new Database();
 
 $xml = simplexml_load_file('meniny.xml');
+//execQuery($db,"DELETE * FROM days");
 
 if ($xml === false) {
     echo "Failed loading XML: ";
@@ -16,10 +17,9 @@ if ($xml === false) {
     }
 } else {
     foreach($xml->children() as $record) {
-//        execQuery($db,"DELETE * FROM days, holidays, namedays, memorials");
 
-//        if (isset($record->den) && !empty($record->den))
-//            insertQuery($db,"INSERT INTO days (id) VALUES (" . $record->den . ")");
+        if (isset($record->den) && !empty($record->den))
+            execQuery($db,"INSERT INTO days (id) VALUES (" . $record->den . ")");
 
         if (isset($record->SK) && !empty($record->SK))
             execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'SK','".$record->SK."',1)");
@@ -27,8 +27,11 @@ if ($xml === false) {
         if (isset($record->SKd) && !empty($record->SKd)) {
             $row = trim($record->SKd);
             $names = explode(",", $row);
-            foreach ($names as $name)
-                execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'SK','".$record->SK."',0)");
+            foreach ($names as $name){
+              if (!empty(trim($name)))
+                  execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'SK','". $name."',0)");
+         }
+
         }
 
         if (isset($record->CZ) && !empty($record->CZ))
