@@ -21,7 +21,7 @@
         <b>Vyhladaj mena podla datumu:</b>
         <div class="form-group">
             <label for="search_date_date" class="my-3">Datum</label>
-            <input type="text" class="form-control" id="search_date_date" placeholder="0113" value="13.1.">
+            <input type="text" class="form-control" id="search_date_date" placeholder="0113" value="11.11.">
         </div>
         <button id="buttonSearchByDate" onclick="searchByDate()" type="button" class="btn btn-primary">Vyhladaj</button>
     </form><hr>
@@ -31,7 +31,7 @@
         <b>Vyhladaj datum podla mena a krajiny:</b>
         <div class="form-group">
             <label for="search_name">Meno</label>
-            <input type="text" class="form-control" id="search_name"  placeholder="Meno">
+            <input type="text" class="form-control" id="search_name"  placeholder="Lukáš">
         </div>
         <div class="form-group">
             <label for="search_state">Krajina (CZ,SK,PL,AT, HU)</label>
@@ -61,7 +61,7 @@
         <b>Pridaj nove meniny:</b>
         <div class="form-group">
             <label for="add_name">Meno</label>
-            <input type="text" class="form-control" id="add_name" name="add_name" placeholder="Rastislav">
+            <input type="text" class="form-control" id="add_name" name="add_name" placeholder="Matúš">
         </div>
         <div class="form-group">
             <label for="add_date">Den</label>

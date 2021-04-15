@@ -37,15 +37,16 @@ function convertDateToNumeric(date)
     return newDate;
 }
 
+
 function searchByDate()
 {
     let date = $("#search_date_date").val().toString();
     let newDate = convertDateToNumeric(date);
 
+
     $.get("https://wt78.fei.stuba.sk/zadanie6/api/search/date/" + newDate,
         function (data) {
-            let json = JSON.parse(data);
-            json = json.namedays;
+            json = data.namedays;
             let rawStr = "";
             for(var k in json)
                 rawStr += "Krajina: " + countries[json[k].country] + " , meno: " + json[k].name + "<br>";
@@ -54,14 +55,14 @@ function searchByDate()
         });
 }
 
+
 function searchByNameState()
 {
     let name = $("#search_name").val();
     let state = $("#search_state").val();
     $.get("https://wt78.fei.stuba.sk/zadanie6/api/search/name/" + name + "/state/" + state,
         function (data) {
-            let json = JSON.parse(data);
-            json = json.meniny;
+            json = data.meniny;
             displayMessage(name + " má meniny " + json);
         });
 }
@@ -71,9 +72,7 @@ function searchHolidays()
     let country = $("#search_holidays").val();
     $.get("https://wt78.fei.stuba.sk/zadanie6/api/search/holidays/" + country,
         function (data) {
-            let json = JSON.parse(data);
-            json = json.holidays;
-            console.log(json);
+            json = data.holidays;
             let rawStr = "";
 
             for(var k in json)
@@ -87,7 +86,12 @@ function searchMemorials()
 {
     $.get("https://wt78.fei.stuba.sk/zadanie6/api/search/memorials/",
         function (data) {
-            displayMessage(data)
+            json = data.memorial_days;
+            let rawStr = "";
+
+            for(var k in json)
+                rawStr += "Dňa: " + json[k].day + " je pamätný deň: " + json[k].name + "<br>";
+            displayMessage(rawStr)
         });
 }
 
@@ -104,7 +108,12 @@ function addNameday()
         data: data,
         dataType: 'text',
         success: response => {
-            displayMessage(response);
+            if (response == 1){
+                displayMessage("Úspešne pridané");
+            } else {
+                displayMessage("OOoopps, niečo sa nepodarilo...");
+            }
+
         }
     });
 }
