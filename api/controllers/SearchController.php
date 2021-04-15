@@ -3,11 +3,28 @@
 
 namespace controllers;
 require_once '/home/xkopalr1/public_html/zadanie6/api/models/NamedaysModel.php';
-require_once './helpers.php';
+
 
 
 class SearchController
 {
+    private  function parseNumericalDateIntoDate($num)
+    {
+        $months = ["Január","Február","Marec","Apríl","Máj", "Jún", "Júl", "August", "September", "Október", "November","December" ];
+
+        $strNum = $num;
+        if (strlen($strNum) == 3){
+            $month = $strNum[0];
+        } else {
+            $month = substr($strNum,0,2);
+        }
+        $day = substr($strNum,2);
+
+        $prettyDate = $day . ". " . $months[intval($month)-1];
+        return $prettyDate;
+    }
+
+
     /*
      * na základe zadaného dátumu získať informáciu,
      * kto má v daný deň meniny na Slovensku, resp. v niektorom inom uvedenom štáte;
@@ -20,6 +37,7 @@ class SearchController
         $model = new \NamedaysModel();
         $namedays = [];
         $namedays['namedays'] = $model->getNamesForDay($date);
+
         return json_encode($namedays, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
@@ -30,9 +48,17 @@ class SearchController
      */
     public function searchByNameAndState($name, $state){
         $model = new \NamedaysModel();
-        $namedays = [];
-        $namedays['name_day'] = $model->getNamedaysByNameAndState($name, $state)[0]['day_numeric'];
-        return json_encode($namedays, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $name = urldecode($name);
+        $nameday = $model->getNamedaysByNameAndState($name, $state);
+        if (empty($nameday))
+            return 404;
+
+        $nameday = $nameday[0];
+
+        $nameday['meniny'] = $this->parseNumericalDateIntoDate($nameday['day_numeric']);
+        unset($nameday['day_numeric']);
+
+        return json_encode($nameday, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
 
@@ -45,9 +71,17 @@ class SearchController
         $state = strtoupper($state);
         if (strcmp($state,"SK") != 0 && strcmp($state,"CZ") != 0)
             return 404;
+
         $model = new \NamedaysModel();
-        $namedays = [];
-        $namedays['holidays'] = $model->getHolidaysByState($state);
+        $holidays = $model->getHolidaysByState($state);
+        foreach ($holidays as &$record){
+            $record['day'] = $this->parseNumericalDateIntoDate($record['day_numeric']);
+            unset($record['day_numeric']);
+        }
+
+        $namedays['holidays'] = $holidays;
+
+
         return json_encode($namedays, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
@@ -71,11 +105,10 @@ class SearchController
     public function insertNameForDay()
     {
         $ins = input()->all([
-            'name',
-            'user_id'
+            'add_name',
+            'add_date'
         ]);
         $model = new \NamedaysModel();
-        $model->addSlovakNameday($ins['name'], $ins['day']);
-
+        return $model->addSlovakNameday($ins['add_name'], $ins['add_date']);
     }
 }

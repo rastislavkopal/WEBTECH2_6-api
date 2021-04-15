@@ -20,16 +20,14 @@ html,body {
 #indexFooter{
     width: 100%;
     min-height: 50px;
-    position: fixed;
     bottom: 0;
 }
 
 .error-message {
     position: fixed;
     top: 20%;
-    left: 45%;
-    margin-left: -150px;
-    width: 500px;
+    left: 25%;
+    width: 50%;
     word-wrap: break-word;
     z-index: 9999;
     background-color: tomato;

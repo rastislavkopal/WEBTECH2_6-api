@@ -21,17 +21,28 @@ if ($xml === false) {
         if (isset($record->den) && !empty($record->den))
             execQuery($db,"INSERT INTO days (id) VALUES (" . $record->den . ")");
 
-        if (isset($record->SK) && !empty($record->SK))
-            execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'SK','".$record->SK."',1)");
+        $count=0;
+        if (isset($record->SK) && !empty($record->SK)){
+            $row = str_replace(' ', '', trim($record->SK));
+            $names = explode(",", $row);
+            foreach ($names as $name){
+                $count++;
+                execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'SK','".$name."',1)");
+            }
+        }
 
         if (isset($record->SKd) && !empty($record->SKd)) {
             $row = trim($record->SKd);
+            $row = str_replace(' ', '', $row);
             $names = explode(",", $row);
             foreach ($names as $name){
+              if ($count != 0){ // skip first, is alwats same as $record->SK
+                  $count--;
+                  continue;
+              }
               if (!empty(trim($name)))
                   execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'SK','". $name."',0)");
-         }
-
+            }
         }
 
         if (isset($record->CZ) && !empty($record->CZ))
