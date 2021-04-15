@@ -18,12 +18,10 @@ html,body {
 }
 
 #indexFooter{
+    width: 100%;
+    min-height: 50px;
     position: fixed;
-    width: 20%;
-    height: 100px;
     bottom: 0;
-    right: 0;
-    align-content: center;
 }
 
 .error-message {
