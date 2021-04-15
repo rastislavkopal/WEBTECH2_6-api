@@ -7,7 +7,7 @@ Router::setDefaultNamespace('controllers');
 
 
 Router::get('/zadanie6/api/', function(){
-    hello;
+    echo hello;
 });
 
 // search
