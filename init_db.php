@@ -21,38 +21,77 @@ if ($xml === false) {
         if (isset($record->den) && !empty($record->den))
             execQuery($db,"INSERT INTO days (id) VALUES (" . $record->den . ")");
 
-        $count=0;
-        if (isset($record->SK) && !empty($record->SK)){
-            $row = str_replace(' ', '', trim($record->SK));
-            $names = explode(",", $row);
-            foreach ($names as $name){
-                $count++;
-                execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'SK','".$name."',1)");
-            }
-        }
+//        $count=0;
+//        if (isset($record->SK) && !empty($record->SK)){
+//            $row = str_replace(' ', '', trim($record->SK));
+//            $names = explode(",", $row);
+//            foreach ($names as $name){
+//                $count++;
+//                execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'SK','".$name."',1)");
+//            }
+//        }
 
         if (isset($record->SKd) && !empty($record->SKd)) {
-            $row = trim($record->SKd);
-            $row = str_replace(' ', '', $row);
-            $names = explode(",", $row);
-            foreach ($names as $name){
-              if ($count != 0){ // skip first, is alwats same as $record->SK
-                  $count--;
-                  continue;
-              }
-              if (!empty(trim($name)))
-                  execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'SK','". $name."',0)");
+            if(str_contains($record->SKd,",")){
+                $row = trim($record->SKd);
+                $row = str_replace(' ', '', $row);
+                $names = explode(",", $row);
+                foreach ($names as $name){
+                    if (!empty(trim($name)))
+                        execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'SK','". $name."',0)");
+                }
+            } else {
+                if (!empty(trim($record->SKd)))
+                    execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'SK','". $record->SKd."',0)");
             }
         }
 
-        if (isset($record->CZ) && !empty($record->CZ))
-            execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'CZ','".$record->CZ."',0)");
+        if (isset($record->CZ) && !empty($record->CZ)) {
+            if(str_contains($record->CZ,",")){
+                $names = explode(",", $row);
+                foreach ($names as $name){
+                    $name = trim($name);
+                    if (!empty($name)){
+                        execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'CZ','".$name."',0)");
+                    }
+                }
+            } else {
+                if (!empty(trim($record->CZ)))
+                    execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'CZ','".$record->CZ."',0)");
+            }
+        }
 
-        if (isset($record->HU) && !empty($record->HU))
-            execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'HU','".$record->HU."',0)");
+        if (isset($record->HU) && !empty($record->HU)) {
+            if(str_contains($record->HU,",")){
+                $names = explode(",", $row);
+                foreach ($names as $name){
+                    $name = trim($name);
+                    if (!empty($name)){
+                        execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'HU','".$name."',0)");
+                    }
+                }
+            } else {
+                if (!empty(trim($record->HU)))
+                    execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'HU','".$record->HU."',0)");
+            }
+        }
 
-        if (isset($record->AT) && !empty($record->AT))
-            execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'AT','".$record->AT."',0)");
+        if (isset($record->AT) && !empty($record->AT)) {
+            if(str_contains($record->AT,",")){
+                $names = explode(",", $row);
+                foreach ($names as $name){
+                    $name = trim($name);
+                    if (!empty($name)){
+                        execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'HU','".$name."',0)");
+                    }
+                }
+            } else {
+                if (!empty(trim($record->AT)))
+                    execQuery($db,"INSERT INTO namedays (day_numeric,country,name, is_title) VALUES (".$record->den.",'AT','".$record->AT."',0)");
+            }
+        }
+
+
 
 
         if (isset($record->SKsviatky) && !empty($record->SKsviatky))

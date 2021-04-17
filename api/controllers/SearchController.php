@@ -130,6 +130,6 @@ class SearchController
             'add_date'
         ]);
         $model = new \NamedaysModel();
-        return $model->addSlovakNameday($ins['add_name'], $ins['add_date']);
+        return ($model->addSlovakNameday($ins['add_name'], $ins['add_date']) == 1) ? "status: 201" : "status: 400";
     }
 }

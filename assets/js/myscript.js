@@ -1,5 +1,5 @@
 $(document).ready( function () {
-
+    // $("#docu-div").load( "https://documenter.getpostman.com/view/15398239/TzJsecxE" );
 } );
 
 var countries = {
@@ -108,7 +108,7 @@ function addNameday()
         data: data,
         dataType: 'text',
         success: response => {
-            if (response == 1){
+            if (response == "status: 201"){
                 displayMessage("Úspešne pridané");
             } else {
                 displayMessage("OOoopps, niečo sa nepodarilo...");
