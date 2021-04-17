@@ -4,7 +4,7 @@
 <!doctype  html>
 <html lang="sk">
 <head>
-    <title>Zadanicko 3</title>
+    <title>Zadanicko 6</title>
     <meta charset="utf-8">
     <meta name="description" content="Webtech assignment 2021 FEI STU">
     <meta name="author" content="Rastislav Kopál">
