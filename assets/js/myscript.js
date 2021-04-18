@@ -62,8 +62,14 @@ function searchByNameState()
     let state = $("#search_state").val();
     $.get("https://wt78.fei.stuba.sk/zadanie6/api/search/name/" + name + "/state/" + state,
         function (data) {
-            json = data.meniny;
-            displayMessage(name + " má meniny " + json);
+            if ('status' in data){
+                displayMessage("Nepodarilo sa najst..");
+                return;
+            }
+            let rawStr = "";
+            for(var k in data)
+                rawStr += "Meniny dňa: " + data[k].meniny + "<br>";
+            displayMessage(rawStr);
         });
 }
 
@@ -108,7 +114,8 @@ function addNameday()
         data: data,
         dataType: 'text',
         success: response => {
-            if (response == "status: 201"){
+            response=JSON.parse(response)
+            if (response.status == 201) {
                 displayMessage("Úspešne pridané");
             } else {
                 displayMessage("OOoopps, niečo sa nepodarilo...");

@@ -60,11 +60,11 @@ class SearchController
     public function searchByNameAndState($name, $state){
         $model = new \NamedaysModel();
         $name = urldecode($name);
+        $this->addHeaders();
+
         $namedays = $model->getNamedaysByNameAndState($name, $state);
         if (empty($namedays))
-            return 404;
-
-        $this->addHeaders();
+            return json_encode(["status" => 404]);
 
         foreach($namedays as $key => $day){
             $namedays[$key]['meniny'] = $this->parseNumericalDateIntoDate($namedays[$key]['day_numeric'] );
@@ -82,10 +82,11 @@ class SearchController
     public function holidaysByState($state)
     {
         $state = strtoupper($state);
-        if (strcmp($state,"SK") != 0 && strcmp($state,"CZ") != 0)
-            return 404;
-
         $this->addHeaders();
+
+        if (strcmp($state,"SK") != 0 && strcmp($state,"CZ") != 0)
+            return ;
+
         $model = new \NamedaysModel();
         $holidays = $model->getHolidaysByState($state);
         foreach ($holidays as &$record){
@@ -132,6 +133,8 @@ class SearchController
             'add_date'
         ]);
         $model = new \NamedaysModel();
-        return ($model->addSlovakNameday($ins['add_name'], $ins['add_date']) == 1) ? "status: 201" : "status: 400";
+
+        $this->addHeaders();
+        return ($model->addSlovakNameday($ins['add_name'], $ins['add_date']) == 1) ? json_encode(["status" => 201]) : json_encode(["status" => 400]);
     }
 }
