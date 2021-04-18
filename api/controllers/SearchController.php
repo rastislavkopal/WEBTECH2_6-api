@@ -60,17 +60,18 @@ class SearchController
     public function searchByNameAndState($name, $state){
         $model = new \NamedaysModel();
         $name = urldecode($name);
-        $nameday = $model->getNamedaysByNameAndState($name, $state);
-        if (empty($nameday))
+        $namedays = $model->getNamedaysByNameAndState($name, $state);
+        if (empty($namedays))
             return 404;
 
         $this->addHeaders();
-        $nameday = $nameday[0];
 
-        $nameday['meniny'] = $this->parseNumericalDateIntoDate($nameday['day_numeric']);
-        unset($nameday['day_numeric']);
+        foreach($namedays as $key => $day){
+            $namedays[$key]['meniny'] = $this->parseNumericalDateIntoDate($namedays[$key]['day_numeric'] );
+            unset($namedays[$key]['day_numeric']);
+        }
 
-        return json_encode($nameday, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        return json_encode($namedays, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
 

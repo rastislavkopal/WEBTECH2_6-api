@@ -1,5 +1,5 @@
 $(document).ready( function () {
-    // $("#docu-div").load( "https://documenter.getpostman.com/view/15398239/TzJsecxE" );
+
 } );
 
 var countries = {
